@@ -1,15 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wachten op locatie</title>
-</head>
-<body>
-    <h1>Wachten op volgende locatie</h1>
-    <p>Wanneer je een bepaalde locatie bereikt, zul je de vraag ontvangen</p>
-    <p id="newlocation"></p>
+    <script>
+          function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+        }
+        return "";
+    }
+
+
+    </script>
     
     <script src="betweenquestions.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime location tracker</title>
+
+    <!-- leaflet css  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- leaflet js  -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Map initialization 
+        var map = L.map('map').setView([14.0860746, 100.608406], 6);
+
+        // osm layer
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        osm.addTo(map);
+
+        // Define red marker icon
+        var redIcon = L.icon({
+            iconUrl: 'marker.png', // URL to a red marker image
+            iconSize: [25, 25], // size of the icon
+            iconAnchor: [12, 25], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -25] // point from which the popup should open relative to the iconAnchor
+        });
+
+        let MarkeLocation = getCookie('NextLocation') // 51.58096516472835-4.784654191057734
+        
+        //here we split it into langitude and longitude
+
+        let nextLocation = MarkeLocation.split("-")
+
+        let latmarker = nextLocation[0]
+        let longmarker = nextLocation[1]
+
+        var redMarkers = [
+            { lat: latmarker, lon: longmarker, title: 'Volgende Locatie' },
+
+        
+    ]
+
+
+
+        // Add red markers to the map
+        redMarkers.forEach(function(marker) {
+            L.marker([marker.lat, marker.lon], { icon: redIcon })
+                .bindPopup(marker.title)
+                .addTo(map);
+        });
+
+        var userMarker, userCircle;
+        var prevLat, prevLon;
+
+        function updateMap(lat, long, accuracy) {
+            // Update user marker and circle
+            if (userMarker) {
+                map.removeLayer(userMarker);
+            }
+
+            if (userCircle) {
+                map.removeLayer(userCircle);
+            }
+
+            userMarker = L.marker([lat, long]).addTo(map);
+            userCircle = L.circle([lat, long], { radius: 10 }).addTo(map); // Set the radius to a fixed value of 10 meters
+
+            // Update the map view only if the user has moved significantly
+            if (!prevLat || !prevLon || (Math.abs(lat - prevLat) > 0.001 || Math.abs(long - prevLon) > 0.001)) {
+                map.setView([lat, long], 15);
+            }
+
+            // Store current location as previous location for next update
+            prevLat = lat;
+            prevLon = long;
+
+            console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
+        }
+
+        if (!navigator.geolocation) {
+            console.log("Your browser doesn't support geolocation feature!")
+        } else {
+            navigator.geolocation.watchPosition(position => {
+                updateMap(position.coords.latitude, position.coords.longitude, position.coords.accuracy);
+            }, null, {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            });
+        }
+    </script>
 </body>
 </html>
