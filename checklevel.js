@@ -1,3 +1,5 @@
+//This script makes sure that you can never end in the root directory
+
 function getCookie(cname) {
     let name = cname + "=";
     let ca = document.cookie.split(';');
