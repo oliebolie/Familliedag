@@ -9,9 +9,18 @@ function setCookie(cname, cvalue, exdays) {
 
 
 document.getElementById('winlevel').addEventListener('click', function(){
-
-    setCookie("Level", 2, 1)
-    setCookie("Onlocation", false, 1)
-    window.location.href = "../"
+    guessdate = document.getElementById('guess')
+    if (guessdate.value == "28/10/1945"){
+        setCookie("Level", 2, 1)
+        setCookie("Onlocation", false, 1)
+        window.location.href = "../"
+    }
+    else if(guessdate.value == ""){
+        document.getElementById('result').innerHTML = "Probeer je wel echt? Vul dan tenminste iets in!"
+    }
+    else{
+        document.getElementById('result').innerHTML = `${guessdate.value} is niet wat we zochten helaas.`
+    }
+    
     
 })
