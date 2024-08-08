@@ -48,7 +48,7 @@ function getLocation() {
     if (distance < 40) {
       // activate here!
       console.log("You're within 40 meters! Ask the question...");
-      // add your code to ask the question here
+      window.location.href = "../levels/";
     }
   }
 
