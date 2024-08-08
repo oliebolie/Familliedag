@@ -1,6 +1,6 @@
 
 
-
+const x = document.getElementById("locationworking");
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -10,11 +10,9 @@ function getLocation() {
 }
 
 function showPosition(position) {
-  x.innerHTML = "Latitude: " + position.coords.latitude +
-  "<br>Longitude: " + position.coords.longitude;
+  x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
 }
 
 document.getElementById('testlocationworking').addEventListener('click', function(){
-    const x = document.getElementById("locationworking");
     getLocation();
 })
