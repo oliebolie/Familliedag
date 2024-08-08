@@ -18,3 +18,10 @@ function getCookie(cname) {
   if (permission != 1) {
     document.body.innerHTML = "<h1>Hier hoor je niet te zijn...</h1>"
   }
+
+  let onlocation = getCookie('Onlocation')
+
+  if (onlocation != "true") {
+    document.body.innerHTML = "<h1>Hier hoor je niet te zijn...</h1>"
+  }
+  

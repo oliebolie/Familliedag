@@ -13,10 +13,24 @@ for(let i = 0; i < ca.length; i++) {
 return "";
 }
 
-let level = getCookie('Level')
-if (level == 0){
-    window.location.href = "/starten/"
+if (getCookie('Onlocation') == "false"){
+  window.location.href = "../betweenquestions/"
 }
-if (level == 1) {
+
+if (getCookie('Onlocation') == ""){
+  window.location.href = "../starten/"
+}
+
+if (getCookie('Onlocation') == "true"){
+ 
+
+  let permission = getCookie('Level')
+
+  if (permission == ""){
+    window.location.href = "../starten/"
+  }
+
+  else if (permission == 1){
     window.location.href = "/levels/level1/"
+  }
 }

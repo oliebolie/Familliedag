@@ -18,6 +18,12 @@ function getCookie(cname) {
     return "";
   }
 
+  function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    let expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
 
 let distance = 1000
 function getLocation() {
@@ -48,6 +54,7 @@ function getLocation() {
     if (distance < 40) {
       // activate here!
       console.log("You're within 40 meters! Ask the question...");
+      setCookie("Onlocation", true, 1)
       window.location.href = "../levels/";
     }
   }
