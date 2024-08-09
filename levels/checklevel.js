@@ -33,4 +33,8 @@ if (getCookie('Onlocation') == "true"){
   else if (permission == 1){
     window.location.href = "/levels/level1/"
   }
+
+  else if (permission == 2){
+    window.location.href = "/levels/level2/"
+  }
 }
