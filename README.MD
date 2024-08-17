@@ -8,4 +8,4 @@ Wat is zo speciaal aan deze website?
     🍪 Gebruikt cookies om je ingelogd the houden (en buiten als je nog niet naar een level mag)
     🧩 Inclusief puzzels op verschilende locaties, voor jong en oud, voor bewoners en toeristen
 
-Heb plezier!
+Heb plezier met z'n allen! 
